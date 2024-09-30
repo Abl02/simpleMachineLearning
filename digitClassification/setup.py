@@ -26,9 +26,15 @@ class Main:
 		proc = []
 		while running:
 			cinput = self.env_input().split() # Input array
+			for i in range(len(cinput)):
+				if cinput[i].isdigit():
+					cinput[i] = int(cinput[i])
+				elif cinput[i].lower() in ['true', 't']:
+					cinput[i] = True
+				elif cinput[i].lower() in ['false', 'f']:
+					cinput[i] = False
 			if not cinput:
 				cinput = [""]
-
 			if cinput[0] in DISPATCHER_P: # if Input0 is a known command then start it
 				command = DISPATCHER_P[cinput[0]]
 				arg = cinput[1:]
@@ -39,7 +45,7 @@ class Main:
 				print(proc)
 
 			elif cinput[0] in DISPATCHER_N:
-				command = cinput[0]+"("+",".join(e for e in cinput[1:])+")"
+				command = cinput[0]+"("+",".join(str(e) for e in cinput[1:])+")"
 				print(command)
 				eval(command,{'__builtins__':None},DISPATCHER_N)
 
